@@ -8,8 +8,7 @@
     },
     "gyara": {
       "root": "artifacts/gyara",
-      "framework": "vite",
-      "outputDirectory": "dist/public"
+      "framework": "vite"
     }
   },
   "rewrites": [
@@ -20,9 +19,22 @@
       }
     },
     {
-      "source": "/(.*)",
+      "source": "/assets/(.*)",
       "destination": {
         "service": "gyara"
+      }
+    },
+    {
+      "source": "/(logo\\.png|favicon\\.svg|opengraph\\.jpg)",
+      "destination": {
+        "service": "gyara"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "gyara",
+        "path": "/index.html"
       }
     }
   ]

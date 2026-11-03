@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { SEED_ARTISANS } from "@/data/seed-artisans";
 
 export type Availability = "Available" | "Busy" | "By appointment";
 
@@ -158,7 +157,7 @@ function mapArtisan(a: DbArtisan): Artisan {
 
 async function fetchArtisans(): Promise<Artisan[]> {
   if (!isSupabaseConfigured) {
-    return SEED_ARTISANS;
+    return [];
   }
   const { data, error } = await supabase
     .from("artisans")
@@ -166,21 +165,20 @@ async function fetchArtisans(): Promise<Artisan[]> {
     .order("is_verified", { ascending: false })
     .order("rating", { ascending: false });
   if (!error && data) {
-    return (data as DbArtisan[]).map(mapArtisan);
+    return (data as DbArtisan[]).map(mapArtisan).filter((a) => !a.isDemo);
   }
   const fallback = await supabase
     .from("artisans")
     .select("*")
     .order("is_verified", { ascending: false })
     .order("rating", { ascending: false });
-  if (fallback.error || !fallback.data) return SEED_ARTISANS;
-  return (fallback.data as DbArtisan[]).map(mapArtisan);
+  if (fallback.error || !fallback.data) return [];
+  return (fallback.data as DbArtisan[]).map(mapArtisan).filter((a) => !a.isDemo);
 }
 
 export async function fetchArtisanDetail(id: number): Promise<{ reviews: Review[]; hires: ArtisanHire[] }> {
   if (!isSupabaseConfigured) {
-    const seed = SEED_ARTISANS.find((a) => a.id === id);
-    return { reviews: seed?.reviews ?? [], hires: seed?.hires ?? [] };
+    return { reviews: [], hires: [] };
   }
   const { data, error } = await supabase
     .from("artisans")
@@ -188,8 +186,7 @@ export async function fetchArtisanDetail(id: number): Promise<{ reviews: Review[
     .eq("id", id)
     .single();
   if (error || !data) {
-    const seed = SEED_ARTISANS.find((a) => a.id === id);
-    return { reviews: seed?.reviews ?? [], hires: seed?.hires ?? [] };
+    return { reviews: [], hires: [] };
   }
   const row = data as { reviews: DbReview[]; hires: DbHire[] };
   return {

@@ -110,54 +110,10 @@ CREATE TRIGGER on_auth_user_created
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 
 -- ============================
--- Seed — 12 demo artisans
+-- Remove any existing demo artisans
 -- ============================
 
-INSERT INTO artisans (id, name, category, location, experience, phone, whatsapp, rating, jobs, initials, color, bio, availability, pricing, is_demo, is_verified) OVERRIDING SYSTEM VALUE VALUES
-(1,  'Emeka Okafor',           'Plumber',          'Lagos',       9,  '08031234567', '08031234567', 4.8, 134, 'EO', 'bg-blue-500',    'Expert plumber with 9 years of experience handling burst pipes, bathroom installations, and borehole plumbing across Lagos Island and Mainland. I respond within the hour.',                                                                   'Available',       '₦5,000 – ₦40,000 depending on job scope',            true, true),
-(2,  'Aisha Musa',             'Electrician',      'Abuja',       7,  '08055678901', '08055678901', 4.9,  98, 'AM', 'bg-yellow-500',  'Licensed female electrician based in Abuja. I specialise in wiring, rewiring, DB board installations, and solar system setups. Safety first on every job.',                                                                                   'Available',       '₦8,000 – ₦60,000',                                   true, true),
-(3,  'Yusuf Danladi',          'AC Technician',    'Kano',       11,  '08167890123', '08167890123', 4.7, 210, 'YD', 'bg-cyan-500',    'Over a decade servicing split units, cassette ACs, and industrial chillers in Kano and surrounding states. Quick diagnosis, genuine spare parts only.',                                                                             'Available',       '₦4,000 for service; repairs quoted on inspection',    true, false),
-(4,  'Chukwuemeka Nwachukwu',  'Carpenter',        'Rivers',     14,  '08023456789', '08023456789', 4.9, 176, 'CN', 'bg-amber-700',   'Master carpenter specialising in custom furniture, kitchen cabinets, wardrobes, and interior woodwork. Every piece is crafted to last. Based in Port Harcourt, work across Rivers State.',                                            'By appointment',  'Custom quotes — average ₦80,000–₦500,000',           true, true),
-(5,  'Taiwo Adeleke',          'Painter',          'Oyo',         6,  '08098765432', '08098765432', 4.6,  89, 'TA', 'bg-pink-500',    'Professional painter offering interior and exterior painting, texture coating, and waterproofing services across Ibadan. I use quality paints and provide colour consultation at no extra cost.',                                  'Available',       '₦150 per sq metre (painting); full quotes on request', true, false),
-(6,  'Musa Garba',             'Welder',           'Kaduna',     12,  '08139876543', '08139876543', 4.8, 153, 'MG', 'bg-orange-600',  'Skilled welder handling gates, burglary proof, steel staircases, metal roofing, and industrial fabrications. I bring the equipment to your site anywhere in Kaduna State.',                                                     'Available',       '₦15,000 – ₦300,000 depending on project',            true, true),
-(7,  'Blessing Okonkwo',       'Generator Repair', 'Enugu',       8,  '08064321098', '08064321098', 4.7, 122, 'BO', 'bg-emerald-500', 'Certified generator technician with 8 years repairing Mikano, Perkins, Tiger, and Honda sets. I do routine servicing, AVR replacements, carburetor overhauls, and full engine rebuilds.',                                       'Available',       '₦3,500 for servicing; repairs from ₦8,000',           true, false),
-(8,  'Fatima Al-Hassan',       'Electrician',      'Kano',        5,  '08077654321', '08077654321', 4.6,  64, 'FA', 'bg-violet-500',  'Young, certified electrician offering wiring, light fixture installations, and prepaid meter connections in Kano metropolis. I prioritise safety and tidy cable management.',                                                    'By appointment',  '₦5,000 – ₦35,000',                                   true, false),
-(9,  'Sunday Effiong',         'Plumber',          'Cross River', 10, '08112233445', '08112233445', 4.8, 141, 'SE', 'bg-teal-500',    'Reliable plumber covering Calabar and Cross River State. I handle overhead tank installations, water pump repairs, drainage systems, and all general plumbing needs.',                                                          'Available',       '₦4,500 call-out fee + cost of materials',             true, true),
-(10, 'Rasheed Bamidele',       'Painter',          'Lagos',       4,  '08145678901', '08145678901', 4.5,  47, 'RB', 'bg-rose-500',    'Detail-oriented painter on Lagos Island. Specialise in 3D wall art, epoxy floor coatings, and premium interior finishes. I bring creative ideas and the skill to execute them.',                                                 'Busy',            '₦200 per sq metre for standard; 3D art from ₦50,000', true, false),
-(11, 'Ifeanyi Obiora',         'Carpenter',        'Abuja',       8,  '08033344556', '08033344556', 4.7, 102, 'IO', 'bg-indigo-500',  'Abuja-based carpenter delivering high-quality doors, window frames, office furniture, and exhibition stands. I work with solid wood, plywood, and MDF — your choice, my craft.',                                              'Available',       'Quoted per project; door from ₦35,000',               true, false),
-(12, 'Kabiru Usman',           'AC Technician',    'Abuja',       6,  '08188990011', '08188990011', 4.6,  88, 'KU', 'bg-green-600',   'AC installation and repair specialist in Abuja. I handle LG, Samsung, Daikin, Midea, and Haier units. All repairs come with a 3-month workmanship guarantee.',                                                               'Available',       'Installation from ₦15,000; servicing ₦5,000',         true, false);
-
-INSERT INTO reviews (id, artisan_id, reviewer_name, rating, comment, created_at) OVERRIDING SYSTEM VALUE VALUES
-(101,  1,  'Bola Adeyemi',    5, 'Fixed our burst pipe at midnight. Professional, fast, and honest pricing. Highly recommend!',                      '2025-11-14T08:30:00Z'),
-(102,  1,  'Chidi Eze',       4, 'Installed our bathroom fittings neatly. Arrived on time and cleaned up after himself.',                            '2025-12-02T11:00:00Z'),
-(103,  1,  'Funke Afolabi',   5, 'Best plumber I''ve hired in Lagos. Very knowledgeable and doesn''t overcharge.',                                  '2026-01-18T09:15:00Z'),
-(201,  2,  'Tunde Salami',    5, 'Aisha rewired our entire flat in two days. Zero issues since. Outstanding work.',                                  '2025-10-22T14:00:00Z'),
-(202,  2,  'Ngozi Obi',       5, 'She installed our solar inverter perfectly. Explained every step. A true professional.',                           '2026-01-05T10:30:00Z'),
-(301,  3,  'Halima Sule',     5, 'Fixed my AC in under 30 minutes. It had been faulty for weeks. Very skilled.',                                     '2025-09-10T16:00:00Z'),
-(302,  3,  'Ibrahim Bello',   4, 'Serviced all 4 of our office ACs. Fair price and thorough work.',                                                  '2025-12-20T09:00:00Z'),
-(401,  4,  'Amara Peterside', 5, 'Built us a stunning dining set. The finish is perfect and delivery was on schedule.',                              '2025-08-15T11:30:00Z'),
-(402,  4,  'Kelechi Ogu',     5, 'Installed our fitted wardrobe and kitchen cabinets. Looks like a showroom. Brilliant!',                            '2026-02-03T13:00:00Z'),
-(501,  5,  'Seun Olanrewaju', 5, 'Painted our 4-bedroom duplex in 5 days. Immaculate finish, no drips, no mess.',                                   '2025-07-28T08:00:00Z'),
-(502,  5,  'Rashida Lawal',   4, 'Good work on our exterior walls. He advised on the right paint for our climate.',                                  '2025-11-11T15:00:00Z'),
-(601,  6,  'Adamu Tanko',     5, 'Fabricated our compound gate and fence. Solid work, very professional attitude.',                                  '2025-10-05T10:00:00Z'),
-(602,  6,  'Patience Dung',   5, 'Made our burglary proofs on time and within budget. Neighbours keep asking who did it.',                           '2026-01-22T14:30:00Z'),
-(701,  7,  'Obinna Nweze',    5, 'Revived our dead Mikano gen that two other technicians gave up on. Truly gifted.',                                 '2025-09-30T09:00:00Z'),
-(702,  7,  'Chidinma Ugwu',   4, 'Serviced our Honda gen. Runs like new. Reasonable charge and very punctual.',                                      '2026-02-14T11:00:00Z'),
-(801,  8,  'Sani Abubakar',   5, 'Wired our new shop from scratch. Neat job, explained everything clearly.',                                         '2025-12-01T13:00:00Z'),
-(802,  8,  'Zainab Umar',     4, 'Fixed our faulty DB board. Fast response and honest about the problem.',                                           '2026-03-10T10:00:00Z'),
-(901,  9,  'Ekpenyong Duke',  5, 'Installed our 5000-litre overhead tank expertly. No leaks, no drama.',                                            '2025-08-20T08:30:00Z'),
-(902,  9,  'Mary Bassey',     5, 'Fixed a stubborn drainage problem in our compound. Quick diagnosis, permanent fix.',                               '2026-01-09T14:00:00Z'),
-(1001, 10, 'Lola Ogundimu',   5, 'He did a 3D mural in our living room. Everyone who visits asks about it. Masterful.',                             '2025-11-25T16:00:00Z'),
-(1002, 10, 'Victor Alade',    4, 'Painted our office reception. Great texture finish and colour matching.',                                          '2026-02-28T09:30:00Z'),
-(1101, 11, 'Emeka Uba',       5, 'Made 12 solid mahogany doors for our building. Perfect fit, excellent finish.',                                   '2025-10-18T11:00:00Z'),
-(1102, 11, 'Sandra Agu',      4, 'Built our office desks and shelving. Clean work and delivered on time.',                                           '2026-03-01T13:30:00Z'),
-(1201, 12, 'Dupe Adegoke',    5, 'Installed 3 ACs in our flat professionally. Very tidy wiring and piping.',                                        '2025-09-05T14:00:00Z'),
-(1202, 12, 'Yakubu Maikudi',  4, 'Repaired our office AC quickly. Came same day and honoured the guarantee when it had a minor issue later.',       '2026-01-30T10:00:00Z');
-
--- Advance sequences so new inserts don't collide
-SELECT setval(pg_get_serial_sequence('artisans', 'id'), 100);
-SELECT setval(pg_get_serial_sequence('reviews',  'id'), 10000);
-SELECT setval(pg_get_serial_sequence('hires',    'id'), 1000);
+DELETE FROM artisans WHERE is_demo = true;
 
 -- ============================
 -- Email verification

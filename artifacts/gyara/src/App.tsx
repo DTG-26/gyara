@@ -724,7 +724,7 @@ function App() {
           <ArtisansProvider>
             <MessagesProvider>
               <AuthGate>
-                <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+                <WouterRouter>
                   <Router />
                 </WouterRouter>
               </AuthGate>

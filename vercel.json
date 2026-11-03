@@ -8,7 +8,8 @@
     },
     "gyara": {
       "root": "artifacts/gyara",
-      "framework": "vite"
+      "framework": "vite",
+      "outputDirectory": "dist/public"
     }
   },
   "rewrites": [

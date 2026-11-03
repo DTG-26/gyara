@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Gyara"
+version = "1.0.0"
+id = "artifacts/gyara"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20256
+
+[services.development]
+run = "pnpm --filter @workspace/gyara run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/gyara", "run", "build" ]
+publicDir = "artifacts/gyara/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20256"
+BASE_PATH = "/"

@@ -1,0 +1,4 @@
+- [Supabase migration](supabase-migration.md) — Gyara fully migrated to Supabase Auth + DB; schema lives in supabase/schema.sql
+- [Email verification](email-verification.md) — Resend SDK on API server, HMAC tokens signed with SESSION_SECRET, mark_email_verified RPC in Supabase
+- [Removing a DB-backed field from app code](removing-db-field-without-migration.md) — dropping unused columns from app code without a schema migration, when a manual SQL step isn't warranted
+- [Playwright e2e setup](playwright-e2e-setup.md) — NixOS browser fix, test-user lifecycle, and AuthModal selector quirks for Gyara e2e tests

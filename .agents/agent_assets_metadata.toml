@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "NGlIHKDSbwKZ_4mEbUlQF"
+uri = "file://artifacts/gyara-mobile/assets/images/icon.png"
+type = "image"
+title = "generated_image"

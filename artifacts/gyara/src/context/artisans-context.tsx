@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { SEED_ARTISANS } from "@/data/seed-artisans";
 
 export type Availability = "Available" | "Busy" | "By appointment";
 
@@ -156,6 +157,9 @@ function mapArtisan(a: DbArtisan): Artisan {
 }
 
 async function fetchArtisans(): Promise<Artisan[]> {
+  if (!isSupabaseConfigured) {
+    return SEED_ARTISANS;
+  }
   const { data, error } = await supabase
     .from("artisans")
     .select("*, reviews(*), hires(*)")
@@ -169,17 +173,24 @@ async function fetchArtisans(): Promise<Artisan[]> {
     .select("*")
     .order("is_verified", { ascending: false })
     .order("rating", { ascending: false });
-  if (fallback.error || !fallback.data) return [];
+  if (fallback.error || !fallback.data) return SEED_ARTISANS;
   return (fallback.data as DbArtisan[]).map(mapArtisan);
 }
 
 export async function fetchArtisanDetail(id: number): Promise<{ reviews: Review[]; hires: ArtisanHire[] }> {
+  if (!isSupabaseConfigured) {
+    const seed = SEED_ARTISANS.find((a) => a.id === id);
+    return { reviews: seed?.reviews ?? [], hires: seed?.hires ?? [] };
+  }
   const { data, error } = await supabase
     .from("artisans")
     .select("reviews(*), hires(*)")
     .eq("id", id)
     .single();
-  if (error || !data) return { reviews: [], hires: [] };
+  if (error || !data) {
+    const seed = SEED_ARTISANS.find((a) => a.id === id);
+    return { reviews: seed?.reviews ?? [], hires: seed?.hires ?? [] };
+  }
   const row = data as { reviews: DbReview[]; hires: DbHire[] };
   return {
     reviews: (row.reviews ?? []).map(mapReview),

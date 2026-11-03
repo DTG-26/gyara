@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
-import { supabase, VERIFY_EMAIL_SENTINEL } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured, VERIFY_EMAIL_SENTINEL } from "@/lib/supabase";
 import type { Session } from "@supabase/supabase-js";
 
 export interface Customer {
@@ -47,6 +47,11 @@ export function CustomerProvider({ children }: { children: ReactNode }) {
   const blockSignInRef = useRef(false);
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setLoading(false);
+      return;
+    }
+
     // Safety valve: if INITIAL_SESSION never fires (network blip, Supabase
     // slow to respond), clear the spinner after 5 s rather than hanging forever.
     const safetyTimer = setTimeout(() => setLoading(false), 5000);

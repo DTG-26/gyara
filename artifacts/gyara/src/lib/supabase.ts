@@ -3,8 +3,13 @@ import { createClient } from "@supabase/supabase-js";
 // Strip any accidentally-included /rest/v1 suffix from the project URL
 const rawUrl = (import.meta.env.VITE_SUPABASE_URL as string) ?? "";
 const supabaseUrl = rawUrl.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "");
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string) ?? "";
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+
+export const supabase = createClient(
+  supabaseUrl || "https://placeholder.supabase.co",
+  supabaseAnonKey || "placeholder-anon-key",
+);
 
 export const VERIFY_EMAIL_SENTINEL = "verify_email";

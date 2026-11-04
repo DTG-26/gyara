@@ -131,23 +131,23 @@ export function CustomerProvider({ children }: { children: ReactNode }) {
       return error.message;
     }
 
-    // Supabase email confirmation is ON — no session returned.
-    // Supabase sends the confirmation email via Resend SMTP automatically.
+    // When Supabase "Confirm email" is OFF, signUp returns a session and the
+    // user is signed in straight away. When it is ON, no session is returned.
     if (data.user) {
       // Upsert profile regardless of whether session is present
       await supabase
         .from("profiles")
         .upsert({ id: data.user.id, name: name.trim() }, { onConflict: "id" });
 
-      if (!data.session) {
-        // Normal path: confirmation email sent, user must verify before signing in.
+      if (data.session) {
+        // No email confirmation required — sign the user in immediately.
         blockSignInRef.current = false;
-        return VERIFY_EMAIL_SENTINEL;
+        setCustomer(sessionToCustomer(data.session, name.trim()));
+        return null;
       }
 
-      // Fallback: email confirmation is off — sign them out and prompt to verify.
-      await supabase.auth.signOut();
-      // blockSignInRef is cleared by the SIGNED_OUT handler.
+      // Fallback: Supabase still requires confirmation — user must verify before signing in.
+      blockSignInRef.current = false;
       return VERIFY_EMAIL_SENTINEL;
     }
 

@@ -26,7 +26,8 @@ function adminHeaders() {
   return {
     "Content-Type": "application/json",
     apikey: SERVICE_ROLE_KEY,
-    Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+    // New-style sb_secret_ keys are not JWTs and must not be sent as a Bearer token.
+    ...(SERVICE_ROLE_KEY.startsWith("eyJ") ? { Authorization: `Bearer ${SERVICE_ROLE_KEY}` } : {}),
   };
 }
 

@@ -133,7 +133,8 @@ router.get("/auth/verify", async (req, res) => {
     headers: {
       "Content-Type": "application/json",
       apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      // New-style sb_publishable_ keys are not JWTs and must not be sent as a Bearer token.
+      ...(SUPABASE_ANON_KEY.startsWith("eyJ") ? { Authorization: `Bearer ${SUPABASE_ANON_KEY}` } : {}),
     },
     body: JSON.stringify({ p_user_id: parsed.userId }),
   });

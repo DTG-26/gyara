@@ -18,10 +18,10 @@ function escapeHtml(str: string): string {
 }
 
 const SECRET = process.env.SESSION_SECRET ?? "dev-secret";
-const rawSupabaseUrl = (process.env.VITE_SUPABASE_URL ?? "")
+const rawSupabaseUrl = (process.env.VITE_SUPABASE_URL || "https://kjfgxuppryienxinyszv.supabase.co")
   .replace(/\/rest\/v1\/?$/, "")
   .replace(/\/$/, "");
-const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY ?? "";
+const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || "sb_publishable_aVnervrwgzp_MYGNXTQvjQ_kOy2IW3a";
 const APP_URL = process.env.APP_URL ?? "https://maigyara.com";
 const TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 

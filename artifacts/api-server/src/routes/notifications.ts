@@ -16,7 +16,7 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#39;");
 }
 
-const rawSupabaseUrl = (process.env.VITE_SUPABASE_URL ?? "")
+const rawSupabaseUrl = (process.env.VITE_SUPABASE_URL || "https://kjfgxuppryienxinyszv.supabase.co")
   .replace(/\/rest\/v1\/?$/, "")
   .replace(/\/$/, "");
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";

@@ -1,41 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "api-server": {
-      "root": "artifacts/api-server",
-      "framework": "express",
-      "entrypoint": "src/index.ts"
-    },
-    "gyara": {
-      "root": "artifacts/gyara",
-      "framework": "vite"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": {
-        "service": "api-server"
-      }
-    },
-    {
-      "source": "/assets/(.*)",
-      "destination": {
-        "service": "gyara"
-      }
-    },
-    {
-      "source": "/(logo\\.png|favicon\\.svg|opengraph\\.jpg)",
-      "destination": {
-        "service": "gyara"
-      }
-    },
-    {
-      "source": "/(.*)",
-      "destination": {
-        "service": "gyara",
-        "path": "/index.html"
-      }
-    }
-  ]
+  "framework": null,
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm --filter @workspace/gyara run build && node artifacts/api-server/build-vercel.mjs"
 }

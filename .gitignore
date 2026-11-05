@@ -50,3 +50,4 @@ Thumbs.db
 .config/
 .env
 .env.*
+.vercel/
